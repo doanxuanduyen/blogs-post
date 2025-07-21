@@ -1,60 +1,39 @@
-import {useState} from "react";
-import {Button} from "@/components/ui/button.tsx";
-import {Check, ChevronDown} from "lucide-react";
-import {Command, CommandGroup, CommandItem, CommandList,} from "@/components/ui/command.tsx";
-import {Popover, PopoverContent, PopoverTrigger,} from "@/components/ui/popover.tsx";
-import {cn} from "@/lib/utils.ts";
-import type {DropdownOption} from "@/posts/PostsPage.tsx";
+import type { BaseOption } from "../shared/data/dropdownOptions.data";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface DropdownProps {
-  value: DropdownOption;
-  options: DropdownOption[];
-  onSelectOption: (option: DropdownOption) => void;
+  value: string;
+  options: BaseOption[];
+  onSelectOption: (val: string) => void;
+  placeholder?: string;
 }
 
-const Dropdown = ({ value, options, onSelectOption }: DropdownProps) => {
-  const [open, setOpen] = useState(false);
-
+const Dropdown = (props: DropdownProps) => {
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-full sm:w-[180px] flex items-center justify-between"
-        >
-          {value.label}
-          <ChevronDown className="opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <Command>
-          <CommandList>
-            <CommandGroup>
-              {options.map((item) => (
-                <CommandItem
-                  key={item.value}
-                  value={item.value}
-                  onSelect={() => {
-                    onSelectOption(item);
-                    setOpen(false);
-                  }}
-                >
-                  {item.label}
-                  <Check
-                    className={cn(
-                      "ml-auto",
-                      value.value === item.value ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
+    <Select
+      value={props.placeholder ? undefined : props.value}
+      onValueChange={(val) => props.onSelectOption(val)}
+    >
+      <SelectTrigger className="w-[180px]">
+        <SelectValue placeholder={props.placeholder} />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          {props.options.map((item: any) => (
+            <SelectItem key={item.id} value={item.id}>
+              {item.name}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   );
 };
 

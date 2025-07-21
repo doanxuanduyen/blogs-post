@@ -3,7 +3,7 @@ import { SearchIcon } from "lucide-react";
 
 interface SearchProps {
   searchValue: string;
-  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+  setSearchValue: (val: string) => void;
 }
 
 const Search = ({ searchValue, setSearchValue }: SearchProps) => {
@@ -19,6 +19,7 @@ const Search = ({ searchValue, setSearchValue }: SearchProps) => {
           className="pl-10"
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
+          placeholder="Search posts..."
         />
       </div>
     </div>

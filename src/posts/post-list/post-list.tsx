@@ -1,46 +1,38 @@
 import { useEffect, useState } from "react";
 import { posts, type PostData } from "@/posts/shared/data/posts.data.ts";
-import type { DropdownOption } from "@/posts/PostsPage.tsx";
-import {PostCard} from "@/posts/post-list/post-detail-card.tsx";
+import type { FilterState } from "@/posts/PostsPage.tsx";
+import { PostCard } from "@/posts/post-list/post-detail-card.tsx";
 
 interface PostListProps {
-  searchValue: string;
-  selectedCategory: DropdownOption;
-  selectedAuthors: DropdownOption;
-  selectedNews: DropdownOption;
+  filterValue: FilterState;
 }
 
-export const PostList = ({
-  searchValue,
-  selectedCategory,
-  selectedAuthors,
-  selectedNews,
-}: PostListProps) => {
+export const PostList = ({ filterValue }: PostListProps) => {
   const [dataPosts, setDataPosts] = useState<PostData[]>([]);
 
   function filterPosts() {
     const result = posts.filter((post) => {
       const resultFilterSearch = post.title
-          .toLowerCase()
-          .includes(searchValue.toLowerCase());
-      const resultFilerCategory =
-          selectedCategory.value === "All Categories" ||
-          selectedCategory.value === post.categories;
-      const resultFilerAuthors =
-          selectedAuthors.value === "All Authors" ||
-          selectedAuthors.value === post.author;
-      return resultFilterSearch && resultFilerCategory && resultFilerAuthors;
+        .toLowerCase()
+        .includes((filterValue.searchValue ?? "").toLowerCase());
+      const resultFilterCategory =
+        filterValue.selectedCategory === "all" ||
+        filterValue.selectedCategory === post.categoryName;
+      const resultFilterAuthors =
+        filterValue.selectedAuthors === "all" ||
+        filterValue.selectedAuthors === post.authorName;
+      return resultFilterSearch && resultFilterCategory && resultFilterAuthors;
     });
 
-    if (selectedNews.value === "Newest First") {
+    if (filterValue.selectedNews === "newest") {
       result.sort(
-          (a, b) =>
-              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
-    } else if (selectedNews.value === "Oldest First") {
+    } else if (filterValue.selectedNews === "Oldest First") {
       result.sort(
-          (a, b) =>
-              new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        (a, b) =>
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
       );
     }
     return result;
@@ -48,7 +40,7 @@ export const PostList = ({
 
   const filteredPosts = filterPosts();
 
-  useEffect(() => {
+  useEffect(function loadAPI() {
     setDataPosts(posts);
   }, []);
 
@@ -58,17 +50,8 @@ export const PostList = ({
         Showing {filteredPosts?.length} of {dataPosts.length} posts
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredPosts.map((post, index) => (
-          <PostCard
-            key={index}
-            thumbnail={post.thumbnailURL}
-            title={post.title}
-            content={post.content}
-            author={post.author}
-            categories={post.categories}
-            createdAt={post.createdAt}
-            lastReadAt={post.lastReadAt}
-          />
+        {filteredPosts.map((post) => (
+          <PostCard key={post.id} post={post} />
         ))}
       </div>
     </>

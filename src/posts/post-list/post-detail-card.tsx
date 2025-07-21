@@ -1,17 +1,7 @@
 import { CalendarDays, UserIcon } from "lucide-react";
+import type { PostData } from "../shared/data/posts.data";
 
-interface PostCard {
-  title: string;
-  content: string;
-  author: string;
-  thumbnail: string;
-  categories: string;
-  createdAt: string;
-  lastReadAt: string;
-}
-
-export const PostCard = (props: PostCard) => {
-  console.log('Render post card')
+export const PostCard = ({ post }: { post: PostData }) => {
   function formatTimeAgo(dateString: string): string {
     const diffMs = Date.now() - new Date(dateString).getTime();
     const diffMinutes = Math.floor(diffMs / (1000 * 60));
@@ -29,32 +19,32 @@ export const PostCard = (props: PostCard) => {
   return (
     <div className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm overflow-hidden hover:shadow-lg transition-shadow cursor-pointer">
       <div className="aspect-video relative overflow-hidden">
-        <img src={props.thumbnail} alt="image" />
+        <img src={post.thumbnailURL} alt="image" />
       </div>
       <div className="card-header @container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-1.5 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 pb-3">
         <div className="flex items-center justify-between mb-2">
           <span className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90">
-            {props.categories}
+            {post.categoryName}
           </span>
           <span className="text-xs text-muted-foreground">
-            {formatTimeAgo(props.lastReadAt)}
+            {formatTimeAgo(post.lastReadAt)}
           </span>
         </div>
         <div className="font-semibold text-lg leading-tight hover:text-primary transition-colors">
-          {props.title}
+          {post.title}
         </div>
         <div className="card-content">
           <div className="text-muted-foreground text-sm line-clamp-3 mb-4">
-            {props.content}
+            {post.content}
           </div>
         </div>
         <div className="card-footer flex items-center justify-between text-xs text-muted-foreground">
           <div className="flex items-center gap-1">
-            <UserIcon size={12} /> {props.author}
+            <UserIcon size={12} /> {post.authorName}
           </div>
           <div className="flex items-center gap-1">
             <CalendarDays size={12} />
-            {props.createdAt}
+            {post.createdAt}
           </div>
         </div>
       </div>
