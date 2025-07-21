@@ -39,7 +39,7 @@ const initFormValues = {
   content: "",
 };
 
-export function CreatePostNormal() {
+export function CreatePostLib() {
   const [categoryOptions, setCategoryOptions] = useState<BaseOption[]>([]);
   const [authorOptions, setAuthorOptions] = useState<BaseOption[]>([]);
   const formRef = useRef<HTMLFormElement | null>(null);
@@ -128,7 +128,7 @@ export function CreatePostNormal() {
             variant="outline"
             className="bg-gray-900 text-white cursor-pointer"
           >
-            <PlusIcon /> Add New Post (Normal)
+            <PlusIcon /> Add New Post (lib)
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-lg min-w-4xl max-h-[90vh] overflow-y-auto">

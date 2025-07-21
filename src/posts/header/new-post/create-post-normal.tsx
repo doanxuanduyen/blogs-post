@@ -101,7 +101,7 @@ export function CreatePostNormal() {
   const handleChangeForm = (e: any) => {
     setFormValues((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value.trim(),
     }));
     setErrors((prev) => ({
       ...prev,
@@ -112,7 +112,7 @@ export function CreatePostNormal() {
   const handleChangeSelect = (value: string, name: string) => {
     setFormValues((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: value.trim(),
     }));
     setErrors((prev) => ({
       ...prev,
