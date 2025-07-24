@@ -2,7 +2,7 @@ import type { FilterState } from "@/posts/PostsPage.tsx";
 import Dropdown from "./dropdown-filter.tsx";
 import Search from "./search-input.tsx";
 import { useEffect, useState } from "react";
-import { sort, type BaseOption } from "../shared/data/dropdownOptions.data.ts";
+import { SORT, type Option } from "../shared/data/dropdownOptions.data.ts";
 import { posts, type PostData } from "../shared/data/posts.data.ts";
 
 interface FilterProps {
@@ -11,12 +11,12 @@ interface FilterProps {
 }
 
 export const Filter = ({ filterValue, onFilterChange }: FilterProps) => {
-  const [categoryOptions, setCategoryOptions] = useState<BaseOption[]>([]);
-  const [authorOptions, setAuthorOptions] = useState<BaseOption[]>([]);
-  const [sortOptions, setSortOptions] = useState<BaseOption[]>([]);
+  const [categoryOptions, setCategoryOptions] = useState<Option[]>([]);
+  const [authorOptions, setAuthorOptions] = useState<Option[]>([]);
+  const [sortOptions, setSortOptions] = useState<Option[]>([]);
 
   useEffect(function loadAPI() {
-    const getCategoryOptions = (posts: PostData[]): BaseOption[] => {
+    const getCategoryOptions = (posts: PostData[]): Option[] => {
       const unique = Array.from(
         new Set(posts.map((post) => post.categoryName))
       );
@@ -26,7 +26,7 @@ export const Filter = ({ filterValue, onFilterChange }: FilterProps) => {
       ];
     };
 
-    const getAuthorOptions = (posts: PostData[]): BaseOption[] => {
+    const getAuthorOptions = (posts: PostData[]): Option[] => {
       const unique = Array.from(new Set(posts.map((post) => post.authorName)));
       return [
         { id: "all", name: "All Authors" },
@@ -36,7 +36,7 @@ export const Filter = ({ filterValue, onFilterChange }: FilterProps) => {
 
     setCategoryOptions(getCategoryOptions(posts));
     setAuthorOptions(getAuthorOptions(posts));
-    setSortOptions(sort);
+    setSortOptions(SORT);
   }, []);
 
   return (

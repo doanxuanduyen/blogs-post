@@ -1,4 +1,4 @@
-import type { BaseOption } from "../shared/data/dropdownOptions.data";
+import type { Option } from "../shared/data/dropdownOptions.data";
 import {
   Select,
   SelectContent,
@@ -10,7 +10,7 @@ import {
 
 interface DropdownProps {
   value: string;
-  options: BaseOption[];
+  options: Option[];
   onSelectOption: (val: string) => void;
   placeholder?: string;
 }
@@ -27,7 +27,7 @@ const Dropdown = (props: DropdownProps) => {
       <SelectContent>
         <SelectGroup>
           {props.options.map((item: any) => (
-            <SelectItem key={item.id} value={item.id}>
+            <SelectItem key={item.id} value={item.name}>
               {item.name}
             </SelectItem>
           ))}
