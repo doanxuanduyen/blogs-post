@@ -22,5 +22,5 @@ jobs:
     name: Notify
     needs: [unit-test]
     steps:
-      - name:echo
-        run: echo "Node version is ${{ env.NODE_VERSION }} $NODE_env"
+      - name: echo
+        run: 'echo Node version is ${{ env.NODE_VERSION }} $NODE_ENV'
