@@ -5,10 +5,10 @@ on:
     branches:
       - main
 
-  jobs:
-    echo_helloworld:
-      runs-on: ubuntu-latest
-      name: Echo Hello World
-      steps:
-        - name: echo
-          run: echo "Hello, World!"
+jobs:
+  echo_helloworld:
+    runs-on: ubuntu-latest
+    name: Echo Hello World
+    steps:
+      - name: echo
+        run: echo "Hello, World!"
