@@ -12,15 +12,10 @@ jobs:
     name: Run Unit Tests
     steps:
       - uses: actions/checkout@v5
-        uses: actions/setup-node@v6
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{ env.NODE_VERSION }}
       - name: Run unit tests
-        run: npm test
-  notify-tests:
-    runs-on: ubuntu-latest
-    name: Notify
-    needs: [unit-test]
-    steps:
-      - name: echo
-        run: 'echo Node version is ${{ env.NODE_VERSION }} $NODE_ENV'
+        run: npm run test
+      - name: Lint
+        run: npm run lint
