@@ -13,6 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - name: Build docker
-        run: docker build -t my-image:latest .
+        run: docker build -t doanxuanduyen/dockertranning:{{ github.sha }} .
       - name: Echo docker
         run: docker image list
